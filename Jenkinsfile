@@ -10,8 +10,19 @@ pipeline {
                 script {
                     // Print the current working directory for debugging
                     sh 'pwd'
-                    // Correct the build command to use the full Docker image name
+                    // Build the Docker image with the tag specified in DOCKER_IMAGE environment variable
                     sh "docker build -t ${env.DOCKER_IMAGE} ."
+                }
+            }
+        }
+
+        stage('Login to Docker Hub') {
+            steps {
+                script {
+                    // Login to Docker Hub using credentials stored in Jenkins
+                    withCredentials([usernamePassword(credentialsId: 'ard-dockerhub', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
+                        sh "echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin"
+                    }
                 }
             }
         }
@@ -19,23 +30,22 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'ard-dockerhub', passwordVariable: 'DOCKERHUB_PASS', usernameVariable: 'DOCKERHUB_USER')]) {
-                        sh "echo $DOCKERHUB_PASS | docker login registry.hub.docker.com -u $DOCKERHUB_USER --password-stdin"
-                        sh "docker push ${env.DOCKER_IMAGE}"
-                    }
+                    // Push the image to Docker Hub
+                    sh "docker push ${env.DOCKER_IMAGE}"
                 }
             }
         }
 
-
         stage('Deploy to VPS') {
             steps {
-                withCredentials([file(credentialsId: 'env-file-id', variable: 'ENV_FILE')]) {
-                    sshagent(['vps_ssh_credentials']) {
-                        // Assuming your docker-compose or deployment script uses the .env file
-                        sh "scp $ENV_FILE user@your_vps_ip:/path/to/your/.env"
-                        sh "ssh user@your_vps_ip 'docker pull ${env.DOCKER_IMAGE}'"
-                        sh "ssh user@your_vps_ip 'docker-compose -f /path/to/your/docker-compose.yml up -d'"
+                script {
+                    // Securely transfer the environment file and deploy using Docker Compose on the VPS
+                    withCredentials([file(credentialsId: 'env-file-id', variable: 'ENV_FILE')]) {
+                        sshagent(['vps_ssh_credentials']) {
+                            sh "scp $ENV_FILE user@your_vps_ip:/path/to/your/.env"
+                            sh "ssh user@your_vps_ip 'docker pull ${env.DOCKER_IMAGE}'"
+                            sh "ssh user@your_vps_ip 'docker-compose -f /path/to/your/docker-compose.yml up -d'"
+                        }
                     }
                 }
             }
