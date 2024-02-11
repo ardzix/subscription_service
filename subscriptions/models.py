@@ -30,8 +30,8 @@ class Package(models.Model):
     modules = models.ManyToManyField('Module')
     max_user = models.IntegerField()
     api_call_limit = models.IntegerField()
-    monthly_price = models.DecimalField(max_digits=10, decimal_places=2)
-    annual_price = models.DecimalField(max_digits=10, decimal_places=2)
+    monthly_price = models.DecimalField(max_digits=19, decimal_places=2)
+    annual_price = models.DecimalField(max_digits=19, decimal_places=2)
     discount = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     is_highlighted = models.BooleanField(default=False)
     # Removed the original price field for clarity
