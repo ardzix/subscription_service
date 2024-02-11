@@ -7,6 +7,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
+                    // Assuming your Dockerfile doesn't require env vars to build. 
+                    // If it does, consider using --build-arg KEY=VALUE here.
                     docker.build(env.DOCKER_IMAGE)
                 }
             }
@@ -23,9 +25,13 @@ pipeline {
         }
         stage('Deploy to VPS') {
             steps {
-                sshagent(['vps_ssh_credentials']) {
-                    sh "ssh user@your_vps_ip docker pull ${env.DOCKER_IMAGE}"
-                    sh "ssh user@your_vps_ip docker-compose -f /path/to/your/docker-compose.yml up -d"
+                withCredentials([file(credentialsId: 'env-file-id', variable: 'ENV_FILE')]) {
+                    sshagent(['vps_ssh_credentials']) {
+                        // Assuming your docker-compose or deployment script uses the .env file
+                        sh "scp $ENV_FILE user@your_vps_ip:/path/to/your/.env"
+                        sh "ssh user@your_vps_ip 'docker pull ${env.DOCKER_IMAGE}'"
+                        sh "ssh user@your_vps_ip 'docker-compose -f /path/to/your/docker-compose.yml up -d'"
+                    }
                 }
             }
         }
