@@ -40,11 +40,13 @@ pipeline {
             steps {
                 script {
                     // Securely transfer the environment file and deploy using Docker Compose on the VPS
-                    withCredentials([file(credentialsId: 'env-file-id', variable: 'ENV_FILE')]) {
-                        sshagent(['vps_ssh_credentials']) {
-                            sh "scp $ENV_FILE root@172.105.124.43:subscription_service/.env"
-                            sh "ssh root@172.105.124.43 'docker pull ${env.DOCKER_IMAGE}'"
-                            sh "ssh root@172.105.124.43 'docker-compose -f subscription_service/docker-compose.yml up -d'"
+                    withCredentials([sshUserPrivateKey(credentialsId: "stag-arnatech-sa-01", keyFileVariable: 'SSH_KEY_FILE', passphraseVariable: 'SSH_KEY_PASSPHRASE', usernameVariable: 'SSH_USERNAME')]) {
+                        withCredentials([file(credentialsId: 'env-file-id', variable: 'ENV_FILE')]) {
+                            sshagent(['vps_ssh_credentials']) {
+                                sh "scp -i ${SSH_KEY_FILE} $ENV_FILE root@172.105.124.43:subscription_service/.env"
+                                sh "ssh -i ${SSH_KEY_FILE} root@172.105.124.43 'docker pull ${env.DOCKER_IMAGE}'"
+                                sh "ssh -i ${SSH_KEY_FILE} root@172.105.124.43 'docker run -d -p 8001:8001 --restart always --network development  --name subscription-service  ${env.DOCKER_IMAGE}'"
+                            }
                         }
                     }
                 }
