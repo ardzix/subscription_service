@@ -4,15 +4,18 @@ pipeline {
         DOCKER_IMAGE = 'subscription_service:latest'
     }
     stages {
+                
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Assuming your Dockerfile doesn't require env vars to build. 
-                    // If it does, consider using --build-arg KEY=VALUE here.
-                    docker.build(env.DOCKER_IMAGE)
+                    // Print the current working directory for debugging
+                    sh 'pwd'
+                    // Assuming Dockerfile is in the root of the checked-out repo
+                    sh 'docker build -t subscription_service:latest .'
                 }
             }
         }
+
         stage('Push Docker Image') {
             steps {
                 script {
