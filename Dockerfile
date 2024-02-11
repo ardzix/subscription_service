@@ -27,7 +27,7 @@ RUN pip install -r requirements.txt
 COPY . /app/
 
 # Collect static files
-RUN python manage.py collectstatic --noinput
+# RUN python manage.py collectstatic --noinput
 
 # Make port 8001 available to the world outside this container
 EXPOSE 8001
