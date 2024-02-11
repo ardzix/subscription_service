@@ -45,7 +45,7 @@ pipeline {
                         // Pull the latest Docker image
                         sh "ssh -o StrictHostKeyChecking=no root@172.105.124.43 'docker pull ${env.DOCKER_IMAGE}'"
                         // Run the Docker container
-                        sh "ssh -o StrictHostKeyChecking=no root@172.105.124.43 'docker run -d -p 8001:8001 --restart always --network development --name subscription-service  --env-file /subscription_service/.env ${env.DOCKER_IMAGE}'"
+                        sh "ssh -o StrictHostKeyChecking=no root@172.105.124.43 'docker run -d -p 8001:8001 --restart always --network development --name subscription-service  --env-file subscription_service/.env ${env.DOCKER_IMAGE}'"
                     }
                 }
             }
