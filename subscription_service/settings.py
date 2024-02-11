@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
+import ast
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -129,7 +130,8 @@ load_dotenv()  # Load environment variables from '.env' file
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', False)
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', [])
+allowed_hosts_str = os.environ.get('ALLOWED_HOSTS', '[]')
+ALLOWED_HOSTS = ast.literal_eval(allowed_hosts_str)
 
 DATABASES = {
     'default': {
