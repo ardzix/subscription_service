@@ -1,17 +1,17 @@
 pipeline {
     agent any
     environment {
+        // Define the full image name including the registry prefix
         DOCKER_IMAGE = 'ardzix/subscription_service:latest'
     }
     stages {
-                
         stage('Build Docker Image') {
             steps {
                 script {
                     // Print the current working directory for debugging
                     sh 'pwd'
-                    // Assuming Dockerfile is in the root of the checked-out repo
-                    sh 'docker build -t subscription_service:latest .'
+                    // Correct the build command to use the full Docker image name
+                    sh "docker build -t ${env.DOCKER_IMAGE} ."
                 }
             }
         }
@@ -19,13 +19,16 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    // Add docker login if needed
-                    docker.withRegistry('https://registry.hub.docker.com', 'ard-dockerhub') {
-                        docker.image(env.DOCKER_IMAGE).push()
+                    // Login to Docker Hub before pushing
+                    withCredentials([usernamePassword(credentialsId: 'ard-dockerhub', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
+                        sh "echo $DOCKERHUB_PASS | docker login registry.hub.docker.com -u $DOCKERHUB_USER --password-stdin"
                     }
+                    // Push the image using the full image name
+                    sh "docker push ${env.DOCKER_IMAGE}"
                 }
             }
         }
+
         stage('Deploy to VPS') {
             steps {
                 withCredentials([file(credentialsId: 'env-file-id', variable: 'ENV_FILE')]) {
