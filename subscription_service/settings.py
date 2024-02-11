@@ -134,6 +134,9 @@ DEBUG = os.getenv('DEBUG', False)
 allowed_hosts_str = os.environ.get('ALLOWED_HOSTS', '')
 ALLOWED_HOSTS = allowed_hosts_str.split(',') if allowed_hosts_str else []
 
+csrf_str = os.environ.get('CSRF_TRUSTED_ORIGINS', '')
+CSRF_TRUSTED_ORIGINS = csrf_str.split(',') if csrf_str else []
+
 
 DATABASES = {
     'default': {
