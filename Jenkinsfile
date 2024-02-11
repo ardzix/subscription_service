@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Add docker login if needed
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_credentials') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'ard-dockerhub') {
                         docker.image(env.DOCKER_IMAGE).push()
                     }
                 }
