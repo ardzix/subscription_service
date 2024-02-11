@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Bootstrap CSS CDN Link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #000; /* Set body background to black */
+            color: #fff; /* Ensure text is white for contrast */
+        }
+        .container {
+            border: 1px solid #333; /* Add a border for the form container */
+            padding: 20px;
+            border-radius: 8px; /* Rounded corners for the form container */
+            background-color: #121212; /* Dark background for the form area */
+            margin-top: 50px; /* Margin to center the form vertically a bit */
+        }
+        .form-control {
+            background-color: #333;
+            border: 1px solid #444;
+            color: #fff;
+        }
+        .form-control:focus {
+            background-color: #333;
+            border-color: #555;
+            color: #fff;
+        }
+        .btn-primary {
+            background-color: #1a1a2e;
+            border-color: #16213e;
+        }
+        .btn-primary:hover {
+            background-color: #16213e;
+        }
+        label {
+            color: #fff; /* White color for labels */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="text-center mb-4">Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username or Email</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter username or email">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Login</button>
+        <button type="button" onclick="document.location='{% url 'signup' %}'" class="btn btn-secondary btn-block">Register</button>
+    </form>
+</div>
+
+<!-- Optional JavaScript; choose one of the two! -->
+<!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{% extends 'subscriptions/base.html' %}
+
+{% block content %}
+<h2>Manage Tenants</h2>
+<ul>
+    {% for tenant in tenants %}
+    <li>{{ tenant.name }} - <a href="{% url 'edit_tenant' tenant.id %}">Edit</a></li>
+    {% empty %}
+    <li>No tenants available.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'add_tenant' %}">Add Tenant</a>
+{% endblock %}

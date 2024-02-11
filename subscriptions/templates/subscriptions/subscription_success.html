@@ -1,0 +1,14 @@
+{% extends 'subscriptions/base.html' %}
+
+{% block title %}Subscription Successful{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Subscription Successful</h2>
+    <p>Your subscription has been successfully processed. Thank you for choosing us!</p>
+    <div class="mt-4">
+        <a href="{% url 'home' %}" class="btn btn-primary">Return to Home</a>
+        <a href="{% url 'manage_subscriptions' %}" class="btn btn-info">Manage Subscriptions</a>
+    </div>
+</div>
+{% endblock %}

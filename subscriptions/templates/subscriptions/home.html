@@ -1,0 +1,174 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bisnis Naik Kelas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+      body {
+        background-color: #000; /* Set body background to black */
+        color: #fff; /* Ensure text is white for contrast */
+      }
+      .hero-section {
+        background-color: #0a0a23; /* Dark blue for the hero section */
+        color: white;
+        padding: 100px 0;
+      }
+      .features-section {
+        padding: 60px 0;
+      }
+      .feature-item h3,
+      .feature-item p {
+        color: #fff; /* Ensure feature text is also white */
+      }
+
+      .package-item {
+        margin-bottom: 30px;
+        background-color: #161616;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      .highlighted {
+        background-color: #0a0a23;
+      }
+      .package-item h3, .package-item p, .package-item li {
+          color: #fff;
+      }
+      .benefits-list {
+          padding-left: 20px;
+      }
+      footer {
+        color: #fff; /* White text for footer */
+      }
+      .auth-buttons {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+      }
+      a.btn-light,{
+        border-color: #fff; /* Adjust button border for visibility */
+        color: #333;
+      }
+      a.btn-success {
+        border-color: #fff; /* Adjust button border for visibility */
+        color: #fff;
+      }
+      a.btn-light:hover {
+        background-color: #262626;
+        color: #fff;
+      }
+      a.btn-success,
+      a.btn-danger {
+        background-color: #1a1a2e; /* Dark blue for buttons */
+        border-color: #1a1a2e;
+      }
+      a.btn-success:hover,
+      a.btn-danger:hover {
+        background-color: #16213e;
+        border-color: #16213e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="auth-buttons">
+      {% if user.is_authenticated %}
+        <span class="navbar-text mr-3">Hello, {{ user.username }}!</span>
+        <a href="{% if tenan_count %}{% url 'manage_tenants' %}{% else %}{% url 'manage_subscriptions' %}{% endif %}" class="btn btn-light mr-2">Atur Langganan</a>
+        <a href="{% url 'logout' %}" class="btn btn-danger">Keluar</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="btn btn-light">Masuk</a>
+      {% endif %}
+    </div>
+    
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <!-- Hero Section -->
+    <div class="hero-section text-center">
+      <div class="container">
+        <h1 class="display-4">Bisnis Naik Kelas</h1>
+        <p class="lead">Transformasikan bisnis Anda dengan solusi digitalisasi terintegrasi kami.</p>
+        <a href="#package" class="btn btn-light btn-lg">Dapatkan Layanan</a>
+      </div>
+    </div>
+
+    <!-- Service Offer Section -->
+    <div class="features-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <h2 class="text-center">Layanan ERP Terpadu untuk Bisnis Anda</h2>
+            <p>Kami berdedikasi untuk membantu bisnis Anda mencapai tingkat berikutnya dengan digitalisasi. Dengan layanan ERP kami yang komprehensif, Anda dapat mengelola segala aspek bisnis mulai dari penjualan, pembelian, akuntansi, SDM, inventaris, produksi, dan banyak lagi. Dapatkan keunggulan kompetitif dengan layanan kami yang terjangkau, mulai dari Rp2.900.000 per bulan.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+    <!-- Packages Section -->
+    <div class="features-section" id="package">
+      <div class="container">
+        <div class="row">
+          {% for package in packages %}
+            <div class="col-md-4 mb-4">
+              <div class="package-item {% if package.is_highlighted %}highlighted{% endif %}">
+                <h3>{{ package.name }}</h3>
+                <p>{{ package.description }}</p>
+                <ul class="benefits-list">
+                  {% for benefit in package.benefits.all %}
+                    <li>{{ benefit.description }}</li>
+                  {% endfor %}
+                </ul>
+                {% if package.discount %}
+                <p>
+                  Per Bulan: <s>Rp{{ package.monthly_price|floatformat:"-0"|intcomma }}</s>
+                  <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  Rp{{ package.discounted_monthly_price|floatformat:"-0"|intcomma }}
+                </p>
+                <p>
+                  Per Tahun: <s>Rp{{ package.annual_price|floatformat:"-0"|intcomma }}</s>
+                  <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  Rp{{ package.discounted_annual_price|floatformat:"-0"|intcomma }}
+                </p>
+                {% else %}
+                <p>Per Bulan: Rp{{ package.monthly_price|floatformat:"-0"|intcomma }}</p>
+                <p>Per Tahun: Rp{{ package.annual_price|floatformat:"-0"|intcomma }}</p>
+                {% endif %}
+                <a href="{% url 'subscribe' %}?package_id={{package.id}}" class="btn btn-success">Berlangganan Sekarang</a>
+              </div>
+            </div>
+          {% empty %}
+            <p>No packages available.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+
+    <!-- CTA Section -->
+    <div class="text-center p-5 cta-section">
+      <h2>Siap Meningkatkan Bisnis Anda?</h2>
+      <p>Daftar sekarang dan mulailah transformasi digital bisnis Anda.</p>
+      <a href="{% url 'signup' %}" class="btn btn-success btn-lg">Daftar Sekarang</a>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="text-center p-4">
+      <p>© 2024 Bisnis Naik Kelas. Semua hak dilindungi.</p>
+      <p>PT Arna Teknologi Peduli - <a href="mailto:contact@arnatech.id">contact@arnatech.id</a></p>
+    </footer>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

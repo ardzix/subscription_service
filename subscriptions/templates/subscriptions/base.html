@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bisnis Naik Kelas{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            background-color: #000; /* Dark background for the whole page */
+            color: #fff; /* White text color for contrast */
+        }
+        .navbar-dark .navbar-nav .nav-link {
+            color: #fff; /* Ensures nav links are white */
+        }
+        .navbar-brand, .footer {
+            color: #fff; /* White text for brand and footer */
+        }
+        .btn-primary {
+            background-color: #1a1a2e; /* Adjust primary buttons to match theme */
+            border-color: #16213e;
+        }
+        .btn-primary:hover {
+            background-color: #16213e;
+        }
+
+
+      .package-item {
+        margin-bottom: 30px;
+        background-color: #161616;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      .highlighted {
+        background-color: #0a0a23;
+      }
+      .package-item h3, .package-item p, .package-item li {
+          color: #fff;
+      }
+      .benefits-list {
+          padding-left: 20px;
+      }
+        .footer {
+            background-color: #121212; /* Slightly lighter dark shade for footer */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">Bisnis Naik Kelas</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'manage_tenants' %}">Atur Tenant</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'manage_subscriptions' %}">Atur Langganan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Keluar</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Masuk</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% block content %}
+        <!-- Dynamic content goes here -->
+        {% endblock %}
+    </div>
+
+    <footer class="footer text-center mt-4 py-3">
+        <p>© 2024 Bisnis Naik Kelas. Semua hak dilindungi.</p>
+        <p>PT Arna Teknologi Peduli - <a href="mailto:contact@arnatech.id">contact@arnatech.id</a></p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{% extends 'subscriptions/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2>Edit Tenant: {{ tenant.name }}</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <a href="{% url 'manage_tenants' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+        <hr>
+        {% if subscription %}
+            <h3>Subscription Details</h3>
+            <p>Package: {{ subscription.package.name }}</p>
+            <p>Start Date: {{ subscription.start_date }}</p>
+            <p>End Date: {{ subscription.end_date }}</p>
+            <p>Total User Limit: {{ subscription.total_user_limit }}</p>
+            <p>Total API Call Limit: {{ subscription.total_api_call_limit }}</p>
+            <p>Status: {{ subscription.active|yesno:"Active,Inactive" }}</p>
+        {% else %}
+            <p>This tenant has no active subscription.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

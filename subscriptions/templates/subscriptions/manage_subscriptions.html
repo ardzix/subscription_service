@@ -1,0 +1,53 @@
+{% extends 'subscriptions/base.html' %}
+{% load humanize %}
+
+{% block content %}
+<h2>Langganan Saat Ini</h2>
+{% if subscriptions %}
+    <ul>
+        {% for subscription in subscriptions %}
+        <li>{{ subscription.package.name }} - {{subscription.tenant.name}} - <a href="{% url 'edit_tenant' subscription.tenant.id %}">Edit</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<hr>
+<h2>Berlangganan Baru</h2>
+    <!-- Packages Section -->
+    <div class="features-section" id="package">
+        <div class="container">
+            <div class="row">
+                {% for package in packages %}
+                    <div class="col-md-4 mb-4">
+                        <div class="package-item {% if package.is_highlighted %}highlighted{% endif %}">
+                            <h3>{{ package.name }}</h3>
+                            <p>{{ package.description }}</p>
+                            <ul class="benefits-list">
+                                {% for benefit in package.benefits.all %}
+                                    <li>{{ benefit.description }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% if package.discount %}
+                            <p>
+                                Per Bulan: <s>Rp{{ package.monthly_price|floatformat:"-0"|intcomma }}</s>
+                                <br>
+                                Rp{{ package.discounted_monthly_price|floatformat:"-0"|intcomma }}
+                            </p>
+                            <p>
+                                Per Tahun: <s>Rp{{ package.annual_price|floatformat:"-0"|intcomma }}</s>
+                                <br>
+                                Rp{{ package.discounted_annual_price|floatformat:"-0"|intcomma }}
+                            </p>
+                            {% else %}
+                            <p>Per Bulan: Rp{{ package.monthly_price|floatformat:"-0"|intcomma }}</p>
+                            <p>Per Tahun: Rp{{ package.annual_price|floatformat:"-0"|intcomma }}</p>
+                            {% endif %}
+                            <a href="{% url 'subscribe' %}?package_id={{package.id}}" class="btn btn-success">Berlangganan Sekarang</a>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Tidak ada paket yang tersedia.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
