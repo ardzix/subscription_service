@@ -124,24 +124,28 @@
                     <li>{{ benefit.description }}</li>
                   {% endfor %}
                 </ul>
-                {% if package.discount %}
-                <p>
-                  Per Bulan: <s>Rp{{ package.monthly_price|floatformat:"-0"|intcomma }}</s>
-                  <br>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  Rp{{ package.discounted_monthly_price|floatformat:"-0"|intcomma }}
-                </p>
-                <p>
-                  Per Tahun: <s>Rp{{ package.annual_price|floatformat:"-0"|intcomma }}</s>
-                  <br>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  Rp{{ package.discounted_annual_price|floatformat:"-0"|intcomma }}
-                </p>
+                {% if package.monthly_price %}
+                  {% if package.discount %}
+                  <p>
+                    Per Bulan: <s>Rp{{ package.monthly_price|floatformat:"-0"|intcomma }}</s>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Rp{{ package.discounted_monthly_price|floatformat:"-0"|intcomma }}
+                  </p>
+                  <p>
+                    Per Tahun: <s>Rp{{ package.annual_price|floatformat:"-0"|intcomma }}</s>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Rp{{ package.discounted_annual_price|floatformat:"-0"|intcomma }}
+                  </p>
+                  {% else %}
+                  <p>Per Bulan: Rp{{ package.monthly_price|floatformat:"-0"|intcomma }}</p>
+                  <p>Per Tahun: Rp{{ package.annual_price|floatformat:"-0"|intcomma }}</p>
+                  {% endif %}
+                  <a href="{% url 'subscribe' %}?package_id={{package.id}}" class="btn btn-success">Berlangganan Sekarang</a>
                 {% else %}
-                <p>Per Bulan: Rp{{ package.monthly_price|floatformat:"-0"|intcomma }}</p>
-                <p>Per Tahun: Rp{{ package.annual_price|floatformat:"-0"|intcomma }}</p>
+                  <a href="mailto:consult@arnatech.id" class="btn btn-success">Hubungi Kami</a>
                 {% endif %}
-                <a href="{% url 'subscribe' %}?package_id={{package.id}}" class="btn btn-success">Berlangganan Sekarang</a>
               </div>
             </div>
           {% empty %}

@@ -17,36 +17,42 @@
         <div class="container">
             <div class="row">
                 {% for package in packages %}
-                    <div class="col-md-4 mb-4">
-                        <div class="package-item {% if package.is_highlighted %}highlighted{% endif %}">
-                            <h3>{{ package.name }}</h3>
-                            <p>{{ package.description }}</p>
-                            <ul class="benefits-list">
-                                {% for benefit in package.benefits.all %}
-                                    <li>{{ benefit.description }}</li>
-                                {% endfor %}
-                            </ul>
-                            {% if package.discount %}
-                            <p>
-                                Per Bulan: <s>Rp{{ package.monthly_price|floatformat:"-0"|intcomma }}</s>
-                                <br>
-                                Rp{{ package.discounted_monthly_price|floatformat:"-0"|intcomma }}
-                            </p>
-                            <p>
-                                Per Tahun: <s>Rp{{ package.annual_price|floatformat:"-0"|intcomma }}</s>
-                                <br>
-                                Rp{{ package.discounted_annual_price|floatformat:"-0"|intcomma }}
-                            </p>
-                            {% else %}
-                            <p>Per Bulan: Rp{{ package.monthly_price|floatformat:"-0"|intcomma }}</p>
-                            <p>Per Tahun: Rp{{ package.annual_price|floatformat:"-0"|intcomma }}</p>
-                            {% endif %}
-                            <a href="{% url 'subscribe' %}?package_id={{package.id}}" class="btn btn-success">Berlangganan Sekarang</a>
-                        </div>
-                    </div>
-                {% empty %}
-                    <p>Tidak ada paket yang tersedia.</p>
-                {% endfor %}
+            <div class="col-md-4 mb-4">
+              <div class="package-item {% if package.is_highlighted %}highlighted{% endif %}">
+                <h3>{{ package.name }}</h3>
+                <p>{{ package.description }}</p>
+                <ul class="benefits-list">
+                  {% for benefit in package.benefits.all %}
+                    <li>{{ benefit.description }}</li>
+                  {% endfor %}
+                </ul>
+                {% if package.monthly_price %}
+                  {% if package.discount %}
+                  <p>
+                    Per Bulan: <s>Rp{{ package.monthly_price|floatformat:"-0"|intcomma }}</s>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Rp{{ package.discounted_monthly_price|floatformat:"-0"|intcomma }}
+                  </p>
+                  <p>
+                    Per Tahun: <s>Rp{{ package.annual_price|floatformat:"-0"|intcomma }}</s>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Rp{{ package.discounted_annual_price|floatformat:"-0"|intcomma }}
+                  </p>
+                  {% else %}
+                  <p>Per Bulan: Rp{{ package.monthly_price|floatformat:"-0"|intcomma }}</p>
+                  <p>Per Tahun: Rp{{ package.annual_price|floatformat:"-0"|intcomma }}</p>
+                  {% endif %}
+                  <a href="{% url 'subscribe' %}?package_id={{package.id}}" class="btn btn-success">Berlangganan Sekarang</a>
+                {% else %}
+                  <a href="mailto:consult@arnatech.id" class="btn btn-success">Hubungi Kami</a>
+                {% endif %}
+              </div>
+            </div>
+          {% empty %}
+            <p>Tidak ada paket berlangganan tersedia.</p>
+          {% endfor %}
             </div>
         </div>
     </div>

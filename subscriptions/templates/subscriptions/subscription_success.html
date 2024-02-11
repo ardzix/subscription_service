@@ -1,11 +1,12 @@
 {% extends 'subscriptions/base.html' %}
 
-{% block title %}Subscription Successful{% endblock %}
+{% block title %}Langganan Berhasil{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Subscription Successful</h2>
-    <p>Your subscription has been successfully processed. Thank you for choosing us!</p>
+    <h2>Langganan Berhasil</h2>
+    <p>Paket langganan anda akan segera kami proses, admin kami akan menghubungi anda untuk langkah pembayaran. Terimakasih untuk memilih kami!</p>
+    <p>Hubungi kami di <a href="mailto:consult@arnatech.id">consult@arnatech.id</a> atau WA di <a href="https://wa.me/6285811144421" target="blank">085811144421</a> jika anda mengalami kendala</p>
     <div class="mt-4">
         <a href="{% url 'home' %}" class="btn btn-primary">Return to Home</a>
         <a href="{% url 'manage_subscriptions' %}" class="btn btn-info">Manage Subscriptions</a>
