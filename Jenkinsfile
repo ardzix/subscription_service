@@ -42,9 +42,9 @@ pipeline {
                     // Securely transfer the environment file and deploy using Docker Compose on the VPS
                     withCredentials([file(credentialsId: 'env-file-id', variable: 'ENV_FILE')]) {
                         sshagent(['vps_ssh_credentials']) {
-                            sh "scp $ENV_FILE user@your_vps_ip:/path/to/your/.env"
-                            sh "ssh user@your_vps_ip 'docker pull ${env.DOCKER_IMAGE}'"
-                            sh "ssh user@your_vps_ip 'docker-compose -f /path/to/your/docker-compose.yml up -d'"
+                            sh "scp $ENV_FILE root@172.105.124.43:subscription_service/.env"
+                            sh "ssh root@172.105.124.43 'docker pull ${env.DOCKER_IMAGE}'"
+                            sh "ssh root@172.105.124.43 'docker-compose -f subscription_service/docker-compose.yml up -d'"
                         }
                     }
                 }
