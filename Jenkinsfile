@@ -35,17 +35,22 @@ pipeline {
                 }
             }
         }
-
+        
         stage('Deploy to VPS') {
             steps {
                 script {
                     sshagent(['stag-arnatech-sa-01']) {
+                        // Remove the existing container if it exists
+                        sh "ssh -o StrictHostKeyChecking=no root@172.105.124.43 'docker rm -f subscription-service || true'"
+                        // Pull the latest Docker image
                         sh "ssh -o StrictHostKeyChecking=no root@172.105.124.43 'docker pull ${env.DOCKER_IMAGE}'"
+                        // Run the Docker container
                         sh "ssh -o StrictHostKeyChecking=no root@172.105.124.43 'docker run -d -p 8001:8001 --restart always --network development --name subscription-service ${env.DOCKER_IMAGE}'"
                     }
                 }
             }
         }
+
     }
            
 }
