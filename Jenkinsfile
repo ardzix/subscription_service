@@ -19,15 +19,14 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    // Login to Docker Hub before pushing
-                    withCredentials([usernamePassword(credentialsId: 'ard-dockerhub', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
+                    withCredentials([usernamePassword(credentialsId: 'ard-dockerhub', passwordVariable: 'DOCKERHUB_PASS', usernameVariable: 'DOCKERHUB_USER')]) {
                         sh "echo $DOCKERHUB_PASS | docker login registry.hub.docker.com -u $DOCKERHUB_USER --password-stdin"
+                        sh "docker push ${env.DOCKER_IMAGE}"
                     }
-                    // Push the image using the full image name
-                    sh "docker push ${env.DOCKER_IMAGE}"
                 }
             }
         }
+
 
         stage('Deploy to VPS') {
             steps {
