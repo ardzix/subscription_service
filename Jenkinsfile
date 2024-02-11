@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_IMAGE = 'subscription_service:latest'
+        DOCKER_IMAGE = 'ardzix/subscription_service:latest'
     }
     stages {
                 
