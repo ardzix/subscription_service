@@ -39,18 +39,9 @@ pipeline {
         stage('Deploy to VPS') {
             steps {
                 script {
-                    // Securely transfer the environment file and deploy using Docker Compose on the VPS
-                    withCredentials([file(credentialsId: 'subscription-service-env', variable: 'ENV_FILE')]) {
-                        sshagent(['stag-arnatech-sa-01']) {
-
-                            sh 'ls -lah' // Lists the current directory contents
-                            echo "ENV_FILE path: $ENV_FILE" // Echoes the ENV_FILE variable to confirm its value
-
-                            sh "scp -o StrictHostKeyChecking=no $ENV_FILE root@172.105.124.43:subscription_service/.env"
-                            sh "ssh -o StrictHostKeyChecking=no root@172.105.124.43 'docker pull ${env.DOCKER_IMAGE}'"
-                            sh "ssh -o StrictHostKeyChecking=no root@172.105.124.43 'docker run -d -p 8001:8001 --restart always --network development --name subscription-service ${env.DOCKER_IMAGE}'"
-
-                        }
+                    sshagent(['stag-arnatech-sa-01']) {
+                        sh "ssh -o StrictHostKeyChecking=no root@172.105.124.43 'docker pull ${env.DOCKER_IMAGE}'"
+                        sh "ssh -o StrictHostKeyChecking=no root@172.105.124.43 'docker run -d -p 8001:8001 --restart always --network development --name subscription-service ${env.DOCKER_IMAGE}'"
                     }
                 }
             }
