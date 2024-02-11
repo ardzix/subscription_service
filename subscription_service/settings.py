@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
-import ast
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -130,8 +129,11 @@ load_dotenv()  # Load environment variables from '.env' file
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', False)
-allowed_hosts_str = os.environ.get('ALLOWED_HOSTS', '[]')
-ALLOWED_HOSTS = ast.literal_eval(allowed_hosts_str)
+
+# Assuming your ALLOWED_HOSTS is defined as "host1.example.com,host2.example.com"
+allowed_hosts_str = os.environ.get('ALLOWED_HOSTS', '')
+ALLOWED_HOSTS = allowed_hosts_str.split(',') if allowed_hosts_str else []
+
 
 DATABASES = {
     'default': {
