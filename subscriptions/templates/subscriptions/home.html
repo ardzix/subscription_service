@@ -102,7 +102,7 @@
         margin: auto; /* Center the carousel on the page */
         overflow: hidden; /* Prevents any overflow from the carousel */
       }
-      
+  
       .carousel-content-wrapper {
         display: flex;
         justify-content: center; /* Center content horizontally in the slide */
@@ -124,6 +124,37 @@
         border-radius: 5px; /* Optional: Rounds the corners of the text background */
         max-width: 35%; /* Limits the width of the text content to avoid it taking up too much space */
       }
+
+      @media (max-width: 768px) {
+
+        .carousel-container {
+          max-width: 100%; /* Keeps the carousel within a reasonable size */
+        }
+        .carousel-content-wrapper {
+          flex-direction: column;
+        }
+      
+        .carousel-item img {
+          max-width: 100%; /* Reduce image size to improve layout on small screens */
+          margin-bottom: 20px; /* Add space between image and text */
+        }
+
+        .text-content {
+          padding: 5px; /* Padding inside the text content box */
+          max-width: 100%; /* Limits the width of the text content to avoid it taking up too much space */
+        }
+      
+        .text-content h3 {
+          font-size: 1.5rem; /* Reduce title font size */
+          max-width: 100%;
+        }
+      
+        .text-content p {
+          font-size: 0.9rem; /* Reduce paragraph font size */
+        }
+      }
+      
+      
       
     </style>
     
@@ -168,8 +199,7 @@
       </div>
     </div>
     
-
-
+    <!-- Carousel Section -->
     <div class="carousel-container">
       <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
