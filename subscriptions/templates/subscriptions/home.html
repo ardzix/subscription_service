@@ -32,6 +32,11 @@
         font-family: 'Inter', sans-serif;
       }
 
+      h1, h2, h3, h4, h5, h6, p, a, button, input, textarea {
+        font-family: 'Inter', sans-serif;
+      }
+      
+
       .hero-section {
         background-image: url('https://arnatech.ap-south-1.linodeobjects.com/arnatech/upload/jj-ying-DYHx6h3lMdY-unsplash-min.jpg');
         background-size: cover;
@@ -123,18 +128,19 @@
         overflow: hidden; /* Prevents any overflow from the carousel */
       }
   
+      .carousel-item img {
+        width: auto; /* Adjust width automatically to preserve the aspect ratio */
+        max-height: 400px; /* Set a maximum height for all images */
+        object-fit: cover; /* Cover the area without breaking the aspect ratio */
+        margin: auto; /* Center the image if its width is smaller than the container */
+      }
+
       .carousel-content-wrapper {
         display: flex;
-        justify-content: center; /* Center content horizontally in the slide */
-        align-items: center; /* Center content vertically in the slide */
-        text-align: left; /* Aligns the text to the left of the image */
-        padding: 20px; /* Adds some padding around the content for spacing */
-      }
-      
-      .carousel-item img {
-        max-width: 30%; /* Reduces the maximum width of the images */
-        height: auto; /* Maintains the aspect ratio of the images */
-        margin-right: 20px; /* Adds some space between the image and the text */
+        flex-direction: row; /* Keep this for larger screens */
+        align-items: center;
+        justify-content: center;
+        text-align: left;
       }
       
       .text-content {
@@ -150,13 +156,14 @@
         .carousel-container {
           max-width: 100%; /* Keeps the carousel within a reasonable size */
         }
+  
         .carousel-content-wrapper {
-          flex-direction: column;
+          flex-direction: column; /* Stack image and text on smaller screens */
         }
       
         .carousel-item img {
-          max-width: 100%; /* Reduce image size to improve layout on small screens */
-          margin-bottom: 20px; /* Add space between image and text */
+          max-width: 100%; /* Allow images to scale down on smaller screens */
+          max-height: 200px; /* Adjust the max-height for smaller screens */
         }
 
         .text-content {
@@ -236,7 +243,7 @@
             <div class="carousel-content-wrapper d-flex align-items-center justify-content-center">
               <img src="https://ap-south-1.linodeobjects.com/arnatech/2023/12/Untitled-design.png" alt="Second slide">
               <div class="text-content">
-                <h3>Pantau Aktivitas Tim Secara Real-time</h3>
+                <h3>Pantau Tim Secara Real-time</h3>
                 <p>Dengan aplikasi ERP mobile kami, setiap detail aktivitas tim Anda berada dalam genggaman. Nikmati kemudahan memantau transaksi dan kegiatan pekerja secara real-time, memberikan Anda kebebasan untuk mengakses data kapan saja, di mana saja, dengan keamanan dan keakuratan informasi yang terjamin.</p>
               </div>
             </div>
