@@ -11,7 +11,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from .forms import SignUpForm, TenantForm, SubscriptionForm
+from .forms import SignUpForm, TenantForm, SubscriptionForm, AdditionalInfoForm
 from .models import Tenant, Package, Subscription
 
 
@@ -195,3 +195,15 @@ def subscribe(request):
 def subscription_success(request):
     # Render a simple success message template
     return render(request, 'subscriptions/subscription_success.html')
+
+
+def fill_additional_info(request):
+    if request.method == 'POST':
+        form = AdditionalInfoForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('home')  # Redirect to the home page or another appropriate page
+    else:
+        form = AdditionalInfoForm(instance=request.user)
+
+    return render(request, 'subscriptions/additional_info.html', {'form': form})

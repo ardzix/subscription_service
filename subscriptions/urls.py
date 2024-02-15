@@ -11,6 +11,7 @@ urlpatterns = [
     path('manage_subscriptions/', views.manage_subscriptions, name='manage_subscriptions'),
     path('subscribe/', views.subscribe, name='subscribe'),
     path('subscription-success/', views.subscription_success, name='subscription_success'),
+    path('additional-info/', views.fill_additional_info, name='fill_additional_info'),
 
     # Add other paths as necessary
 ]

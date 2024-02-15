@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from .models import Tenant, Subscription, Package
 
 class SignUpForm(UserCreationForm):
@@ -34,3 +35,18 @@ class SubscriptionForm(forms.ModelForm):
         super(SubscriptionForm, self).__init__(*args, **kwargs)
         if user is not None:
             self.fields['tenant'].queryset = Tenant.objects.filter(owned_by=user)  # Update the queryset based on the user
+
+
+
+User = get_user_model()
+
+class AdditionalInfoForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'phone_number', 'company_name', 'company_industry']
+        labels = {
+            'first_name': 'Nama Lengkap',
+            'phone_number': 'No Telepon/WA',
+            'company_name': 'Nama Perusahaan',
+            'company_industry': 'Bidang Perusahaan',
+        }
