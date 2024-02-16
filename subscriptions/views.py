@@ -187,6 +187,7 @@ def fill_additional_info(request):
     if request.method == 'POST':
         form = AdditionalInfoForm(request.POST, instance=request.user)
         if form.is_valid():
+            form.save()
             # Unset the flag in the session once the additional info is successfully saved
             request.session['profile_needs_completion'] = False
             # You might want to also add a message to notify the user of successful update
