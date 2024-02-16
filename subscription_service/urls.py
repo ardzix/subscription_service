@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from subscriptions.views import home, login_view, profile_redirect
+from subscriptions.views import home, login_view, profile_redirect, terms_and_conditions, privacy_policy
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +25,7 @@ urlpatterns = [
     path('accounts/profile/', profile_redirect, name='profile_redirect'),
     path('social-auth/', include('social_django.urls', namespace='social')),
     path('accounts/login/', login_view, name='login'),
+    path('terms/', terms_and_conditions, name='terms'),
+    path('privacy/', privacy_policy, name='privacy'),
     path('', home, name='home'),
 ]

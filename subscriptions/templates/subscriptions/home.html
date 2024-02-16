@@ -195,7 +195,7 @@
     <a href="{% if tenant_count %}{% url 'manage_tenants' %}{% else %}{% url 'manage_subscriptions' %}{% endif %}" class="btn btn-light mr-2">Atur Langganan</a>
     <a href="{% url 'logout' %}" class="btn btn-danger">Keluar</a>
   {% else %}
-  <a href="{% url "social:begin" "google-oauth2" %}">Login with Google</a>
+  <a href="{% url "social:begin" "google-oauth2" %}">Masuk dengan Google</a>
 
   {% endif %}
 </div>
@@ -339,12 +339,16 @@
       <a href="{% url 'manage_subscriptions' %}" class="btn btn-success btn-lg">Daftar Sekarang</a>
     </div>
 
-
     <!-- Footer -->
     <footer class="text-center p-4">
       <p>© 2024 Bisnis Naik Kelas. Semua hak dilindungi.</p>
       <p>PT Arna Teknologi Peduli - <a href="mailto:contact@arnatech.id">contact@arnatech.id</a></p>
+      <p>
+        <a href="{% url 'terms' %}">Syarat dan Ketentuan</a> | 
+        <a href="{% url 'privacy' %}">Kebijakan Privasi</a>
+      </p>
     </footer>
+
 
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

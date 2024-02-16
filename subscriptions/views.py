@@ -204,3 +204,9 @@ def fill_additional_info(request):
 # This view redirects /accounts/profile/ to the manage_subscriptions view
 def profile_redirect(request):
     return redirect('manage_subscriptions')
+
+def terms_and_conditions(request):
+    return render(request, 'subscriptions/terms_and_conditions.html')
+
+def privacy_policy(request):
+    return render(request, 'subscriptions/privacy_policy.html')

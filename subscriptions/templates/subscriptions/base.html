@@ -91,7 +91,7 @@
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Masuk</a>
+                            <a href="{% url "social:begin" "google-oauth2" %}">Masuk dengan Google</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -105,10 +105,16 @@
         {% endblock %}
     </div>
 
-    <footer class="footer text-center mt-4 py-3">
+    <!-- Footer -->
+    <footer class="text-center p-4">
         <p>© 2024 Bisnis Naik Kelas. Semua hak dilindungi.</p>
         <p>PT Arna Teknologi Peduli - <a href="mailto:contact@arnatech.id">contact@arnatech.id</a></p>
+        <p>
+        <a href="{% url 'terms' %}">Syarat dan Ketentuan</a> | 
+        <a href="{% url 'privacy' %}">Kebijakan Privasi</a>
+        </p>
     </footer>
+  
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
