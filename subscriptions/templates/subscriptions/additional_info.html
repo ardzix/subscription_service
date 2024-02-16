@@ -1,11 +1,20 @@
-{% extends 'subscription/base.html' %}  <!-- Extend your base template if you have one -->
+{% extends 'subscriptions/base.html' %}
 
 {% block content %}
 <div class="container">
     <h2>Complete Your Profile</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }} {{ field }}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endfor %}
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>

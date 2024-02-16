@@ -1,20 +1,15 @@
 from django.db import models
 from datetime import timedelta
 from libs.storage import FILE_STORAGE
-
-from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
 
-class CustomUser(AbstractUser):
-    phone_number = models.CharField(max_length=20, blank=True, null=True)
-    company_name = models.CharField(max_length=255, blank=True, null=True)
-    company_industry = models.CharField(max_length=255, blank=True, null=True)
-
+User = settings.AUTH_USER_MODEL
 
 class Tenant(models.Model):
     name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=255)
-    owned_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    owned_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

@@ -16,14 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from subscriptions.views import home, login_view, signup
+from subscriptions.views import home, login_view, profile_redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('subscriptions/', include('subscriptions.urls')),  
 
+    path('accounts/profile/', profile_redirect, name='profile_redirect'),
     path('social-auth/', include('social_django.urls', namespace='social')),
-    path('accounts/register/', signup, name='signup'),
     path('accounts/login/', login_view, name='login'),
     path('', home, name='home'),
 ]

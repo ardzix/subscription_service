@@ -70,22 +70,8 @@ def activate(request, uidb64, token):
 
 
 def login_view(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            # Redirect to a success page.
-            # Adjust the redirect as needed
-            return redirect('manage_subscriptions')
-        else:
-            # Return an 'invalid login' error message.
-            messages.error(request, 'Invalid username or password.')
-            return redirect('login')  # Adjust the redirect as needed
-    else:
-        return render(request, 'subscriptions/login.html')
+    google_login_url = reverse('social:begin', args=('google-oauth2',))
+    return redirect(google_login_url)
 
 
 def logout_view(request):
@@ -201,9 +187,20 @@ def fill_additional_info(request):
     if request.method == 'POST':
         form = AdditionalInfoForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.save()
-            return redirect('home')  # Redirect to the home page or another appropriate page
+            # Unset the flag in the session once the additional info is successfully saved
+            request.session['profile_needs_completion'] = False
+            # You might want to also add a message to notify the user of successful update
+            from django.contrib import messages
+            messages.success(request, 'Your profile has been updated successfully.')
+            return redirect('manage_subscriptions')  # Redirect to the home page or another appropriate page
+    
     else:
         form = AdditionalInfoForm(instance=request.user)
 
     return render(request, 'subscriptions/additional_info.html', {'form': form})
+
+
+
+# This view redirects /accounts/profile/ to the manage_subscriptions view
+def profile_redirect(request):
+    return redirect('manage_subscriptions')

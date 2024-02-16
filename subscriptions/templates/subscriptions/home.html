@@ -22,9 +22,8 @@
     
     <!-- Ensuring your site is crawlable -->
     <meta name="robots" content="index, follow">
-    
     <meta name="google-signin-client_id" content="748499912378-psjv5uidj2p58suu0f9sskppp8s94ktb.apps.googleusercontent.com">
-
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <style>
@@ -190,20 +189,17 @@
     
   </head>
   <body>
-    
-    
-    <div class="auth-buttons">
-      {% if user.is_authenticated %}
-        <span class="navbar-text mr-3">Hello, {{ user.username }}!</span>
-        <a href="{% if tenan_count %}{% url 'manage_tenants' %}{% else %}{% url 'manage_subscriptions' %}{% endif %}" class="btn btn-light mr-2">Atur Langganan</a>
-        <a href="{% url 'logout' %}" class="btn btn-danger">Keluar</a>
-      {% else %}
-        <!-- Google OAuth Sign-in Button -->
-        <div id="my-signin2"></div>
-      {% endif %}
-    </div>
-    
-    
+ <div class="auth-buttons">
+  {% if user.is_authenticated %}
+    <span class="navbar-text mr-3">Hello, {{ user.username }}!</span>
+    <a href="{% if tenant_count %}{% url 'manage_tenants' %}{% else %}{% url 'manage_subscriptions' %}{% endif %}" class="btn btn-light mr-2">Atur Langganan</a>
+    <a href="{% url 'logout' %}" class="btn btn-danger">Keluar</a>
+  {% else %}
+  <a href="{% url "social:begin" "google-oauth2" %}">Login with Google</a>
+
+  {% endif %}
+</div>
+
     
 
     {% if messages %}
@@ -340,7 +336,7 @@
     <div class="text-center p-5 cta-section">
       <h2>Siap Meningkatkan Bisnis Anda?</h2>
       <p>Daftar sekarang dan mulailah transformasi digital bisnis Anda.</p>
-      <a href="{% url 'signup' %}" class="btn btn-success btn-lg">Daftar Sekarang</a>
+      <a href="{% url 'manage_subscriptions' %}" class="btn btn-success btn-lg">Daftar Sekarang</a>
     </div>
 
 
@@ -354,28 +350,5 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-      function onSuccess(googleUser) {
-        console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-        // Send the ID token to your server with an AJAX request.
-        // This is where you can link Google's sign-in process with your Django backend.
-      }
-      function onFailure(error) {
-        console.log(error);
-      }
-      function renderButton() {
-        gapi.signin2.render('my-signin2', {
-          'scope': 'profile email',
-          'width': 240,
-          'height': 50,
-          'longtitle': true,
-          'theme': 'dark',
-          'onsuccess': onSuccess,
-          'onfailure': onFailure
-        });
-      }
-    </script>
-    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
-    
   </body>
 </html>

@@ -43,7 +43,7 @@ User = get_user_model()
 class AdditionalInfoForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'phone_number', 'company_name', 'company_industry']
+        fields = ['first_name', 'phone_number', 'company_name', 'company_industry']
         labels = {
             'first_name': 'Nama Lengkap',
             'phone_number': 'No Telepon/WA',

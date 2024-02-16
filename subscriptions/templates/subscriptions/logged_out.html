@@ -19,7 +19,7 @@
     <div class="container text-center">
         <h1>Anda berhasil keluar</h1>
         <a href="{% url 'home' %}" class="btn btn-primary">Halaman Utama</a>
-        <a href="{% url 'login' %}" class="btn btn-secondary">Masuks Kembali</a>
+        <a href="{% url "social:begin" "google-oauth2" %}" class="btn btn-secondary">Masuks Kembali</a>
     </div>
 </body>
 </html>

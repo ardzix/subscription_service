@@ -33,7 +33,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     "django_extensions",
-    'subscriptions',
+    "subscriptions",
+    "customauth",
+    "social_django"
 ]
 
 MIDDLEWARE = [
@@ -44,7 +46,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'subscriptions.middleware.ProfileCompletionMiddleware',
 ]
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 ROOT_URLCONF = 'subscription_service.urls'
 
@@ -193,4 +197,4 @@ SOCIAL_AUTH_PIPELINE = (
     'subscriptions.pipeline.save_profile',  # Custom function to handle additional fields
 )
 
-AUTH_USER_MODEL = 'subscriptions.CustomUser'
+AUTH_USER_MODEL = 'customauth.CustomUser'
